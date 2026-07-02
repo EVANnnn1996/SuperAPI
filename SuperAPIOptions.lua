@@ -3,19 +3,9 @@ if not SetAutoloot then
 	return
 end
 
-SuperAPI.AUTOLOOT_OPTIONS = {
-	"Always on",
-	"Always off",
-	"Shift to toggle on",
-	"Shift to toggle off",
-}
+SuperAPI.AUTOLOOT_OPTIONS = SuperAPI_L.autoloot_options
 
-SuperAPI.SELECTION_CIRCLE_STYLE = {
-	"Default - incomplete circle",
-	"Full circle (must download texture)",
-	"Full circle with arrow for facing direction (must download texture)",
-	"Classic incomplete circle oriented in facing direction",
-}
+SuperAPI.SELECTION_CIRCLE_STYLE = SuperAPI_L.selection_circle_style
 
 SuperAPI:RegisterDefaults("profile", {
 	autoloot = SuperAPI.AUTOLOOT_OPTIONS[3],
@@ -44,8 +34,8 @@ SuperAPI.cmdtable = {
 	args = {
 		autoloot = {
 			type = "text",
-			name = "Autoloot (Read tooltip)",
-			desc = "Specifies autoloot behavior.  If using Vanilla Tweaks quickloot all of these will be reversed (always on will actually be always off, Shift to toggle on will be Shift to toggle off etc).",
+			name = SuperAPI_L.autoloot_name,
+			desc = SuperAPI_L.autoloot_desc,
 			order = 10,
 			validate = SuperAPI.AUTOLOOT_OPTIONS,
 			get = function()
@@ -74,8 +64,8 @@ SuperAPI.cmdtable = {
 		},
 		clickthrough = {
 			type = "toggle",
-			name = "Clickthrough corpses",
-			desc = "Allows you to click through corpses to loot corpses underneath them.",
+			name = SuperAPI_L.clickthrough_name,
+			desc = SuperAPI_L.clickthrough_desc,
 			order = 20,
 			get = function()
 				return Clickthrough() == 1
@@ -91,8 +81,8 @@ SuperAPI.cmdtable = {
 		},
 		fov = {
 			type = "range",
-			name = "Field of view (Requires reload)",
-			desc = "Changes the field of view of the game.  Requires reload to take effect.",
+			name = SuperAPI_L.fov_name,
+			desc = SuperAPI_L.fov_desc,
 			order = 30,
 			min = 0.1,
 			max = 3.14,
@@ -106,8 +96,8 @@ SuperAPI.cmdtable = {
 		},
 		selectioncircle = {
 			type = "text",
-			name = "Selection circle style",
-			desc = "Changes the style of the selection circle.",
+			name = SuperAPI_L.selectioncircle_name,
+			desc = SuperAPI_L.selectioncircle_desc,
 			order = 40,
 			validate = SuperAPI.SELECTION_CIRCLE_STYLE,
 			get = function()
@@ -130,8 +120,8 @@ SuperAPI.cmdtable = {
 		},
 		backgroundsound = {
 			type = "toggle",
-			name = "Background sound",
-			desc = "Allows game sound to play even when the window is in the background.",
+			name = SuperAPI_L.backgroundsound_name,
+			desc = SuperAPI_L.backgroundsound_desc,
 			order = 60,
 			get = function()
 				return GetCVar("BackgroundSound") == "1"
@@ -146,8 +136,8 @@ SuperAPI.cmdtable = {
 		},
 		uncappedsounds = {
 			type = "toggle",
-			name = "Uncapped sounds",
-			desc = "Allows more game sounds to play at the same time by removing hardcoded limit.  This will also set SoundSoftwareChannels and SoundMaxHardwareChannels to 64.  If you experience any weird crashes you may want to turn this off.",
+			name = SuperAPI_L.uncappedsounds_name,
+			desc = SuperAPI_L.uncappedsounds_desc,
 			order = 70,
 			get = function()
 				return GetCVar("UncapSounds") == "1"
@@ -166,8 +156,8 @@ SuperAPI.cmdtable = {
 		},
 		lootsparkle = {
 			type = "toggle",
-			name = "Loot Sparkle",
-			desc = "Toggle loot sparkle effect on lootable treasure.",
+			name = SuperAPI_L.lootsparkle_name,
+			desc = SuperAPI_L.lootsparkle_desc,
 			order = 80,
 			get = function()
 				return GetCVar("LootSparkle") == "1"
@@ -188,7 +178,7 @@ deuce.hasFuBar = IsAddOnLoaded("FuBar") and FuBar
 deuce.consoleCmd = not deuce.hasFuBar
 
 SuperAPIOptions = AceLibrary("AceAddon-2.0"):new("AceDB-2.0", "FuBarPlugin-2.0")
-SuperAPIOptions.name = "FuBar - SuperAPI"
+SuperAPIOptions.name = SuperAPI_L.fubar_name
 SuperAPIOptions:RegisterDB("SuperAPIDB")
 SuperAPIOptions.hasIcon = "Interface\\Icons\\inv_misc_book_06"
 SuperAPIOptions.defaultMinimapPosition = 180
@@ -204,6 +194,19 @@ for k, v in pairs(args) do
 end
 
 function SuperAPIOptions:OnEnable()
+	-- migrate saved autoloot value if the client language changed
+	local savedAutoloot = SuperAPI.db.profile.autoloot
+	local matched = false
+	for _, opt in ipairs(SuperAPI.AUTOLOOT_OPTIONS) do
+		if opt == savedAutoloot then
+			matched = true
+			break
+		end
+	end
+	if not matched then
+		SuperAPI.db.profile.autoloot = SuperAPI.AUTOLOOT_OPTIONS[3]
+	end
+
 	-- activate saved settings
 	SuperAPI.cmdtable.args.autoloot.set(SuperAPI.db.profile.autoloot)
 	SuperAPI.cmdtable.args.clickthrough.set(SuperAPI.db.profile.clickthrough)

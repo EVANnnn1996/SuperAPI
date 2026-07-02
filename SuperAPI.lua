@@ -1,6 +1,100 @@
+-- Localization
+local locale = GetLocale()
+if locale == "zhCN" then
+	SuperAPI_L = {
+		no_superwow = "未检测到 SuperWoW",
+		loaded = "|cffffcc00SuperAPI|cffffaaaa 已加载。右键点击小地图图标以打开设置。",
+
+		macro_char_limit = "%d/511 字符使用中",
+		option_tooltip_party_chat_bubbles = "在角色头顶的对话气泡中显示密语、小队、团队和战场的聊天文字。",
+		party_chat_bubbles_text = "显示密语和小队聊天气泡",
+
+		autoloot_options = {
+			"始终开启",
+			"始终关闭",
+			"Shift 切换为开启",
+			"Shift 切换为关闭",
+		},
+		selection_circle_style = {
+			"默认 - 不完整光环",
+			"完整光环（需下载贴图）",
+			"带朝向箭头的完整光环（需下载贴图）",
+			"沿朝向的经典不完整光环",
+		},
+
+		autoloot_name = "自动拾取（请查看提示）",
+		autoloot_desc = "设置自动拾取的行为。如果同时启用了 Vanilla Tweaks 的快速拾取，所有选项的效果将会反转（始终开启实际为始终关闭，Shift 切换为开启实际为 Shift 切换为关闭，以此类推）。",
+
+		clickthrough_name = "穿透尸体点击",
+		clickthrough_desc = "允许你穿透上层尸体，直接拾取下方的尸体。",
+
+		fov_name = "视野范围（需要重载界面）",
+		fov_desc = "调整游戏的视野范围（FoV），修改后需要重载界面才会生效。",
+
+		selectioncircle_name = "选择光环样式",
+		selectioncircle_desc = "调整选中目标时的光环样式。",
+
+		backgroundsound_name = "后台声音",
+		backgroundsound_desc = "允许游戏在窗口位于后台时继续播放声音。",
+
+		uncappedsounds_name = "解除声音上限",
+		uncappedsounds_desc = "解除同时播放声音的硬编码上限，让更多声音可以同时播放。启用后会将 SoundSoftwareChannels 和 SoundMaxHardwareChannels 都设置为 64。如果出现异常崩溃，请关闭此选项。",
+
+		lootsparkle_name = "拾取光效",
+		lootsparkle_desc = "切换可拾取宝箱上的闪光特效。",
+
+		fubar_name = "FuBar - SuperAPI",
+	}
+else
+	SuperAPI_L = {
+		no_superwow = "No SuperWoW detected",
+		loaded = "|cffffcc00SuperAPI|cffffaaaa Loaded.  Check the minimap icon for options.",
+
+		macro_char_limit = "%d/511 Characters Used",
+		option_tooltip_party_chat_bubbles = "Shows whisper, party, raid, and battleground chat text in speech bubbles above characters' heads.",
+		party_chat_bubbles_text = "Show Whisper and Group Chat Bubbles",
+
+		autoloot_options = {
+			"Always on",
+			"Always off",
+			"Shift to toggle on",
+			"Shift to toggle off",
+		},
+		selection_circle_style = {
+			"Default - incomplete circle",
+			"Full circle (must download texture)",
+			"Full circle with arrow for facing direction (must download texture)",
+			"Classic incomplete circle oriented in facing direction",
+		},
+
+		autoloot_name = "Autoloot (Read tooltip)",
+		autoloot_desc = "Specifies autoloot behavior.  If using Vanilla Tweaks quickloot all of these will be reversed (always on will actually be always off, Shift to toggle on will be Shift to toggle off etc).",
+
+		clickthrough_name = "Clickthrough corpses",
+		clickthrough_desc = "Allows you to click through corpses to loot corpses underneath them.",
+
+		fov_name = "Field of view (Requires reload)",
+		fov_desc = "Changes the field of view of the game.  Requires reload to take effect.",
+
+		selectioncircle_name = "Selection circle style",
+		selectioncircle_desc = "Changes the style of the selection circle.",
+
+		backgroundsound_name = "Background sound",
+		backgroundsound_desc = "Allows game sound to play even when the window is in the background.",
+
+		uncappedsounds_name = "Uncapped sounds",
+		uncappedsounds_desc = "Allows more game sounds to play at the same time by removing hardcoded limit.  This will also set SoundSoftwareChannels and SoundMaxHardwareChannels to 64.  If you experience any weird crashes you may want to turn this off.",
+
+		lootsparkle_name = "Loot Sparkle",
+		lootsparkle_desc = "Toggle loot sparkle effect on lootable treasure.",
+
+		fubar_name = "FuBar - SuperAPI",
+	}
+end
+
 -- No superwow, no superapi
 if not SUPERWOW_VERSION then
-	DEFAULT_CHAT_FRAME:AddMessage("No SuperWoW detected");
+	DEFAULT_CHAT_FRAME:AddMessage(SuperAPI_L.no_superwow);
 	-- this version of SuperAPI is made for SuperWoW 1.2
 	-- can somebody make this warning better?
 	return
@@ -16,11 +110,11 @@ function SuperAPI:OnEnable()
 	-- Let macro frame allow 511 characters
 	MacroFrame_LoadUI();
 	MacroFrameText:SetMaxLetters(511);
-	MACROFRAME_CHAR_LIMIT = "%d/511 Characters Used";
+	MACROFRAME_CHAR_LIMIT = SuperAPI_L.macro_char_limit;
 
 	-- Change chat bubbles options name
-	OPTION_TOOLTIP_PARTY_CHAT_BUBBLES = "Shows whisper, party, raid, and battleground chat text in speech bubbles above characters' heads.";
-	PARTY_CHAT_BUBBLES_TEXT = "Show Whisper and Group Chat Bubbles";
+	OPTION_TOOLTIP_PARTY_CHAT_BUBBLES = SuperAPI_L.option_tooltip_party_chat_bubbles;
+	PARTY_CHAT_BUBBLES_TEXT = SuperAPI_L.party_chat_bubbles_text;
 
 	SuperAPI.SetItemRefOriginal = SetItemRef
 	SuperAPI.SpellButton_OnClickOriginal = SpellButton_OnClick
@@ -49,7 +143,7 @@ function SuperAPI:OnEnable()
 	SLASH_MACROTOOLTIP1 = "/tooltip"
 	SlashCmdList["MACROTOOLTIP"] = function(cmd)
 	end
-	DEFAULT_CHAT_FRAME:AddMessage("|cffffcc00SuperAPI|cffffaaaa Loaded.  Check the minimap icon for options.")
+	DEFAULT_CHAT_FRAME:AddMessage(SuperAPI_L.loaded)
 end
 
 function SuperAPI:OnEvent()

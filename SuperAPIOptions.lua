@@ -7,11 +7,7 @@ SuperAPI.AUTOLOOT_OPTIONS = SuperAPI_L.autoloot_options
 
 SuperAPI.SELECTION_CIRCLE_STYLE = SuperAPI_L.selection_circle_style
 
-SuperAPI.NAMEPLATE_MOTION = {
-	"Overlap",
-	"Default spread",
-	"Smart spread",
-}
+SuperAPI.NAMEPLATE_MOTION = SuperAPI_L.nameplate_motion_options
 
 SuperAPI:RegisterDefaults("profile", {
 	autoloot = SuperAPI.AUTOLOOT_OPTIONS[3],
@@ -178,8 +174,8 @@ SuperAPI.cmdtable = {
 		},
 		healingtext = {
 			type = "toggle",
-			name = "Floating Healing Text",
-			desc = "Toggle display of in-world healing feedback.",
+			name = SuperAPI_L.healingtext_name,
+			desc = SuperAPI_L.healingtext_desc,
 			order = 85,
 			get = function()
 				return GetCVar("HealingText") == "1"
@@ -194,14 +190,14 @@ SuperAPI.cmdtable = {
 		},
 		nameplates = {
 			type = "group",
-			name = "Nameplate Settings",
-			desc = "Group of settings related to Nameplates",
+			name = SuperAPI_L.nameplates_name,
+			desc = SuperAPI_L.nameplates_desc,
 			order = 90,
 			args = {
 				nameplaterange = {
 				type = "range",
-				name = "Nameplate range",
-				desc = "Changes the range at which Nameplates appear.",
+				name = SuperAPI_L.nameplaterange_name,
+				desc = SuperAPI_L.nameplaterange_desc,
 				order = 1,
 				min = 10,
 				max = 80,
@@ -215,8 +211,8 @@ SuperAPI.cmdtable = {
 				},
 				nameplatemotion = {
 				type = "text",
-				name = "Nameplate Motion",
-				desc = "Changes the behavior of moving nameplates.",
+				name = SuperAPI_L.nameplatemotion_name,
+				desc = SuperAPI_L.nameplatemotion_desc,
 				order = 2,
 				validate = SuperAPI.NAMEPLATE_MOTION,
 				get = function()
@@ -239,14 +235,14 @@ SuperAPI.cmdtable = {
 		},
 		chatbubbles = {
 			type = "group",
-			name = "Chat Bubble Settings",
-			desc = "Group of settings related to Chat Bubbles that appear above units",
+			name = SuperAPI_L.chatbubbles_name,
+			desc = SuperAPI_L.chatbubbles_desc,
 			order = 100,
 			args = {
 				chatbubblerange = {
 				type = "range",
-				name = "Chat Bubbles range",
-				desc = "Changes the range at which Chat Bubbles appear.",
+				name = SuperAPI_L.chatbubblerange_name,
+				desc = SuperAPI_L.chatbubblerange_desc,
 				order = 1007,
 				min = 10,
 				max = 200,
@@ -260,8 +256,8 @@ SuperAPI.cmdtable = {
 				},
 				togglesay = {
 				type = "toggle",
-				name = "Say Chat Bubbles",
-				desc = "Toggle say and yell chat bubbles on/off",
+				name = SuperAPI_L.saybubbles_name,
+				desc = SuperAPI_L.saybubbles_desc,
 				order = 1009,
 				get = function()
 					return GetCVar("ChatBubbles") == "1"
@@ -276,8 +272,8 @@ SuperAPI.cmdtable = {
 				},
 				togglepartybubbles = {
 				type = "toggle",
-				name = "Party Chat Bubbles",
-				desc = "Toggle party chat bubbles on/off",
+				name = SuperAPI_L.partybubbles_name,
+				desc = SuperAPI_L.partybubbles_desc,
 				order = 1008,
 				get = function()
 					return GetCVar("ChatBubblesParty") == "1"
@@ -292,8 +288,8 @@ SuperAPI.cmdtable = {
 				},
 				toggleraidbubbles = {
 				type = "toggle",
-				name = "Raid Chat Bubbles",
-				desc = "Toggle raid chat bubbles on/off",
+				name = SuperAPI_L.raidbubbles_name,
+				desc = SuperAPI_L.raidbubbles_desc,
 				order = 1010,
 				get = function()
 					return GetCVar("ChatBubblesRaid") == "1"
@@ -308,8 +304,8 @@ SuperAPI.cmdtable = {
 				},
 				togglebgbubbles = {
 				type = "toggle",
-				name = "Battleground Chat Bubbles",
-				desc = "Toggle battleground chat bubbles on/off",
+				name = SuperAPI_L.bgbubbles_name,
+				desc = SuperAPI_L.bgbubbles_desc,
 				order = 1020,
 				get = function()
 					return GetCVar("ChatBubblesBattleground") == "1"
@@ -324,8 +320,8 @@ SuperAPI.cmdtable = {
 				},
 				togglewhisperbubbles = {
 				type = "toggle",
-				name = "Whisper Chat Bubbles",
-				desc = "Toggle whisper chat bubbles on/off",
+				name = SuperAPI_L.whisperbubbles_name,
+				desc = SuperAPI_L.whisperbubbles_desc,
 				order = 1030,
 				get = function()
 					return GetCVar("ChatBubblesWhisper") == "1"
@@ -340,8 +336,8 @@ SuperAPI.cmdtable = {
 				},
 				togglecreaturebubbles = {
 				type = "toggle",
-				name = "Creature Chat Bubbles",
-				desc = "Toggle chat bubbles on creatures on/off",
+				name = SuperAPI_L.creaturebubbles_name,
+				desc = SuperAPI_L.creaturebubbles_desc,
 				order = 1040,
 				get = function()
 					return GetCVar("ChatBubblesCreatures") == "1"
@@ -358,8 +354,8 @@ SuperAPI.cmdtable = {
 		},
 		superwowLink = {
 			type = "execute",
-			name = "Support The Project",
-			desc = "All your donations are deeply appreciated! The community support is what keeps SuperWoW going",
+			name = SuperAPI_L.support_name,
+			desc = SuperAPI_L.support_desc,
 			func = function()
 				local url = "https://ko-fi.com/balakesuperwow"
 

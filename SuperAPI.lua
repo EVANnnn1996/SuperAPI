@@ -92,11 +92,11 @@ else
 	}
 end
 
--- No superwow, no superapi
-if not SUPERWOW_VERSION then
-	DEFAULT_CHAT_FRAME:AddMessage(SuperAPI_L.no_superwow);
-	-- this version of SuperAPI is made for SuperWoW 1.2
-	-- can somebody make this warning better?
+-- No compatible SuperWoW, no SuperAPI
+local version = tonumber(SUPERWOW_VERSION)
+
+if not version or version < 2.0 then
+	DEFAULT_CHAT_FRAME:AddMessage(SuperAPI_L.no_superwow .. ". https://github.com/balakethelock/SuperWoW");
 	return
 end
 
